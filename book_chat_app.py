@@ -95,7 +95,7 @@ def load_books(limit: int | None = None):
     q = f"SELECT {cols} FROM {TABLE}"
     if limit:
         q += f" LIMIT {limit}"
-    df = pd.read_sql(q, conn).fillna("")
+    df = fn_query(q).fillna("")
     return df
 
 @st.cache_data(show_spinner=False)

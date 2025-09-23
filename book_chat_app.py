@@ -80,7 +80,7 @@ bq_client = get_bq_client(PROJECT_ID, GCP_SA_INFO)
 
 TABLE = "korea_univ.dm_book_detail"
 COL_TITLE  = "book"
-COL_AUTHOR = "auther"
+COL_AUTHOR = "author"
 COL_PUB    = "publisher"
 COL_TEXT   = "openai"  
 

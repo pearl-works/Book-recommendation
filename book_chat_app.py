@@ -127,6 +127,7 @@ def extract_section(text: str, n: int, title_kw: str) -> str:
 def extract_genre_from_gpt(text: str) -> str:
     # "4. 장르 및 핵심 키워드" 섹션 첫 줄을 장르로 간주 (없으면 키워드 전체를 한 줄 요약)
     block = extract_section(text, 4, "장르")
+    print('###################################3',block)
     if not block:
         return ""
     first_line = block.splitlines()[0].strip()

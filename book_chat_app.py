@@ -125,14 +125,14 @@ def extract_section(text: str, n: int, title_kw: str) -> str:
     return (m.group(1).strip() if m else "").strip()
 
 def extract_genre_from_gpt(text: str) -> str:
-    # "4. 장르 및 핵심 키워드" 섹션 첫 줄을 장르로 간주 (없으면 키워드 전체를 한 줄 요약)
     block = extract_section(text, 4, "장르")
-    print('###################################3',block)
     if not block:
         return ""
     first_line = block.splitlines()[0].strip()
-    # 콤마/슬래시 기준 정리
-    first_line = re.sub(r"\s*[,/]\s*", ", ", first_line)
+    # "장르는 XXX이며..." 패턴에서 XXX만 추출
+    m = re.search(r"장르는\s*(.+?)(?:이며|이고|입니다|,|$)", first_line)
+    if m:
+        return m.group(1).strip()
     return first_line
 
 def extract_summary_from_gpt(text: str) -> str:

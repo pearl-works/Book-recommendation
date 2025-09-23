@@ -61,7 +61,7 @@ assert OPENAI_API_KEY.strip(), "환경변수 OPENAI_API_KEY를 먼저 설정하�
 if not PROJECT_ID:
     raise RuntimeError("PROJECT_ID가 설정되지 않았어요 (.env 또는 환경변수 확인).")
 
-openai_client = OpenAI(api_key=OPENAI_API_KEY)
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 EMBED_MODEL = "text-embedding-3-small"
 CHAT_MODEL  = "gpt-5-mini"

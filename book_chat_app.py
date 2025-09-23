@@ -77,7 +77,7 @@ def get_bq_client(project_id: str, sa_info: dict) -> bigquery.Client:
 bq_client = get_bq_client(PROJECT_ID, GCP_SA_INFO)
 
 
-# DB 연결
+
 TABLE = "korea_univ.dm_book_detail"
 COL_TITLE  = "book"
 COL_AUTHOR = "auther"
@@ -90,13 +90,15 @@ def fn_query(sql: str) -> pd.DataFrame:
 
 
 @st.cache_data(show_spinner=False)
-def load_books(limit: int | None = None):
-    cols = f"{COL_TITLE},{COL_AUTHOR},{COL_PUB},{COL_TEXT}"
-    q = f"SELECT {cols} FROM {TABLE}"
-    if limit:
-        q += f" LIMIT {limit}"
-    df = fn_query(q).fillna("")
-    return df
+# def load_books(limit: int | None = None):
+#     cols = f"{COL_TITLE},{COL_AUTHOR},{COL_PUB},{COL_TEXT}"
+#     q = f"SELECT {cols} FROM {TABLE}"
+#     if limit:
+#         q += f" LIMIT {limit}"
+
+#     print(q)
+#     df = fn_query(q).fillna("")
+#     return df
 
 @st.cache_data(show_spinner=False)
 def load_major_map() -> tuple[dict[str, list[str]], list[str]]:
@@ -114,10 +116,8 @@ def load_major_map() -> tuple[dict[str, list[str]], list[str]]:
     college_list = sorted(by_college.keys())
     return by_college, college_list
 
-by_college, college_list = load_major_map()
 
-
-df_books = load_books()           # (N, 4)
+df_books = fn_query('''SELECT * FROM korea_univ.dm_book_detail ''')        
 by_college, college_list = load_major_map()
 
 # ========= 유틸: 텍스트/파싱 =========

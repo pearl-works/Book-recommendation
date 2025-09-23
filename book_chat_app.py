@@ -90,17 +90,6 @@ def fn_query(sql: str) -> pd.DataFrame:
 
 
 @st.cache_data(show_spinner=False)
-# def load_books(limit: int | None = None):
-#     cols = f"{COL_TITLE},{COL_AUTHOR},{COL_PUB},{COL_TEXT}"
-#     q = f"SELECT {cols} FROM {TABLE}"
-#     if limit:
-#         q += f" LIMIT {limit}"
-
-#     print(q)
-#     df = fn_query(q).fillna("")
-#     return df
-
-@st.cache_data(show_spinner=False)
 def load_major_map() -> tuple[dict[str, list[str]], list[str]]:
     # DB에서 전공 목록 읽어서 {단과대:[학과...]} 맵 구성
     df_major = fn_query("""
@@ -117,7 +106,7 @@ def load_major_map() -> tuple[dict[str, list[str]], list[str]]:
     return by_college, college_list
 
 
-df_books = fn_query('''SELECT * FROM korea_univ.dm_book_detail ''')        
+df_books = fn_query('''SELECT * FROM korea_univ.dm_book_detail where author != '' ''')   
 by_college, college_list = load_major_map()
 
 # ========= 유틸: 텍스트/파싱 =========
@@ -537,7 +526,7 @@ with tab_reco:
 
                 if intent == "ask_name":
                     # 결과 저장
-                    append_chat("assistant", "저는 가보자KU팀이 만들었어요. 도서추천을 도와드릴게요")
+                    append_chat("assistant", "저는 KU센스입니다. 도서추천을 도와드릴게요")
                 elif intent != "recommend":
                     append_chat(
                         "assistant",

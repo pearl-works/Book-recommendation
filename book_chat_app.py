@@ -118,7 +118,8 @@ def simple_tokenize(s: str) -> List[str]:
 def extract_section(text: str, n: int, title_kw: str) -> str:
     if not text:
         return ""
-    # ex) 4. 장르 및 핵심 키워드\n ... \n5. 내용 요약 or EOF
+    
+    text = text.replace("\\n", "\n")
     pat = rf"{n}\.\s*{title_kw}.*?\n([\s\S]+?)(?:\n\s*\d+\.\s|$)"
     m = re.search(pat, text)
     return (m.group(1).strip() if m else "").strip()
@@ -134,7 +135,6 @@ def extract_genre_from_gpt(text: str) -> str:
     return first_line
 
 def extract_summary_from_gpt(text: str) -> str:
-    # "5. 내용 요약 (3~5문장)" 섹션이 있으면 사용, 없으면 전체 텍스트
     block = extract_section(text, 5, "내용 요약")
     return block if block else text
 
@@ -393,6 +393,17 @@ with st.sidebar:
     with st.expander("단과대학별 전체 학과 보기", expanded=False):
         for c in college_list:  # 원래 순서 유지
             st.markdown(f"**{c}**  \n" + " · ".join(by_college[c]))
+
+    st.markdown(
+    """
+    <div class="sidebar-footer">
+    <hr/>
+    <div>Copyright. 2025 대학혁신지원사업 연구과제 서진주, 전재현</div>
+    </div>
+    """,
+    unsafe_allow_html=True
+        )
+
 
 # ========= 본문: 질의 → RAG 추천 =========
 st.title("KU 전공 맞춤 도서추천")

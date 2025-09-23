@@ -354,7 +354,6 @@ with st.sidebar:
     current_departments = by_college.get(selected_college, [])
 
     with st.form("dept_pick_form", clear_on_submit=False):
-        apply_pick = st.form_submit_button("선택 적용")
         selected_this_college = st.multiselect(
             "학과(복수 선택 가능)",
             options=current_departments,
@@ -362,6 +361,7 @@ with st.sidebar:
             placeholder="학과를 선택하세요",
             key=f"dept_multi_{selected_college}",
         )
+        apply_pick = st.form_submit_button("선택 적용")
 
     if apply_pick:
         st.session_state["selected_map"][selected_college] = selected_this_college

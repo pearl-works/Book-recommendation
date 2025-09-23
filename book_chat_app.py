@@ -102,14 +102,12 @@ def load_books(limit: int | None = None):
 def load_major_map() -> tuple[dict[str, list[str]], list[str]]:
     # DB에서 전공 목록 읽어서 {단과대:[학과...]} 맵 구성
     df_major = fn_query("""
-        SELECT 단과대학, 학과
-        FROM DW_MAJOR
-        WHERE 단과대학 != '학부대학'
-        ORDER BY 단과대학, 학과
+        SELECT college, department
+        FROM korea_univ.dm_major
     """)
     by_college: dict[str, list[str]] = defaultdict(list)
     for _, row in df_major.iterrows():
-        by_college[row["단과대학"]].append(row["학과"])
+        by_college[row["college"]].append(row["department"])
     # 정렬/중복제거
     for k in by_college.keys():
         by_college[k] = sorted(set(by_college[k]))

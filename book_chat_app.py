@@ -1,8 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-KU 전공 맞춤 도서추천 (RAG + BM25 + HyDE + Embedding Re-rank)
-필요 패키지: streamlit, pandas, numpy, sqlalchemy, rank_bm25, openai, psycopg2-binary(선택)
-"""
 
 import os, re, json, hashlib
 import os, re, sqlite3, pandas as pd, numpy as np
@@ -19,7 +14,6 @@ from google.cloud import bigquery
 from google.oauth2 import service_account
 
 
-# ========= 스타일 (Korea University 톤) =========
 KU_CRIMSON = "#A6192E"
 KU_BEIGE   = "#F7F3EE"
 KU_GRAY    = "#4B4B4B"
@@ -236,7 +230,7 @@ def make_reasons(query: str, items: List[Dict]) -> List[str]:
             reasons.append(f"요청과 '{g}'(으)로 묘사된 주제가 맞닿아 있습니다.")
         return reasons
 
-    sys = "너는 한국어 도서 추천 비서다. 각 책이 사용자의 요청·전공 맥락에 왜 맞는지 1~2문장으로 간결히 써라."
+    sys = "너는 한국어 도서 추천 비서다. 각 책이 사용자의 요청·전공 맥락에 왜 맞는지 1~2문장으로 간결히 써라. 존댓말로 응답해"
     # 모델 입력 축약
     book_blocks = []
     for i, it in enumerate(items, 1):
@@ -338,7 +332,7 @@ def render_book_card(item: Dict[str, Any], rank: int, reason: str = ""):
         unsafe_allow_html=True
     )
 
-# ========= 사이드바: 전공 선택 (교차 누적 + 일괄 삭제 + 빠른 렌더) =========
+# ========= 사이드바: 전공 선택 ========
 with st.sidebar:
     st.header("학과 선택")
 

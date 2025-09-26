@@ -578,7 +578,6 @@ with tab_reco:
                             ack = short_acknowledge(query)
                             st.markdown(ack)
 
-                            # append_chat("assistant", "### ✅ 추천 결과", cards=cards)
                             append_chat("assistant", ack, cards=cards)
                         else:
                             append_chat("assistant", "조건에 맞는 책을 찾지 못했어요. 전공/주제를 조금 넓혀볼까요?")
